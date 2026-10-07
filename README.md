@@ -12,7 +12,7 @@ degrees: each geometry is projected into a metric CRS first.
 
 Once the server is running, open the built-in [test console](#test-console-web-ui) to try it yourself.
 
-## Architecture
+## Architecture at a glance
 
 ![High-level design: client, FastAPI routes, upload pipeline, database and the measurement engine](docs/high-level-design.png)
 
@@ -302,6 +302,9 @@ curl "http://localhost:8000/api/files/8b24c7ebabd046ad9e744931684af72c/features/
 
 (`coordinates` abbreviated; the real response contains every vertex, including the hole ring.)
 
+## Architecture
+
+The diagram at the top of this page shows the whole flow; the sections below explain each part.
 
 ### Application structure
 
