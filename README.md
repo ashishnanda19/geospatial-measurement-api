@@ -33,18 +33,6 @@ docker build -t geo-api .
 docker run --rm -p 8000:8000 -v geo-data:/data geo-api
 ```
 
-One-click hosting: [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ashishnanda19/geospatial-measurement-api)
-
-Settings are environment variables with the `GEO_` prefix:
-
-| Variable | Default | Meaning |
-|---|---|---|
-| `GEO_DATABASE_URL` | `sqlite:///./geo.db` | SQLAlchemy database URL |
-| `GEO_MAX_UPLOAD_BYTES` | 50 MB | Larger uploads get `413` |
-| `GEO_MAX_UNCOMPRESSED_BYTES` | 500 MB | Zip-bomb guard: total size after unzipping |
-| `GEO_MAX_ZIP_MEMBERS` | 200 | Zip-bomb guard: number of entries in the archive |
-| `GEO_MAX_FEATURES` | 100000 | Features allowed per file |
-
 ## API
 
 | Method | Path | Purpose |
