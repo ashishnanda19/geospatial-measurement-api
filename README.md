@@ -4,7 +4,13 @@ A FastAPI service that accepts a **zipped Shapefile** or a **KML** file, extract
 per-feature **area** (polygons) and **length** (lines). Measurements are never taken on latitude/longitude
 degrees: each geometry is projected into a metric CRS first.
 
-**New here?** Watch the [one-minute explainer video](docs/explainer-video.mp4) (no technical background needed), or open the built-in [test console](#test-console-web-ui) once the server is running.
+<p align="center">
+  <img src="docs/explainer.gif" alt="One-minute animated explainer: upload a map file, safe unpacking, measuring plots and roads in metres, saving, and reading the results" width="760">
+</p>
+
+<p align="center"><sub>One-minute explainer for non-technical readers (captions on screen). Prefer sound? Download the <a href="docs/explainer-video.mp4">narrated MP4</a>.</sub></p>
+
+Once the server is running, open the built-in [test console](#test-console-web-ui) to try it yourself.
 
 ## Features
 
