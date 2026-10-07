@@ -4,6 +4,8 @@ A FastAPI service that accepts a **zipped Shapefile** or a **KML** file, extract
 per-feature **area** (polygons) and **length** (lines). Measurements are never taken on latitude/longitude
 degrees: each geometry is projected into a metric CRS first.
 
+**New here?** Watch the [one-minute explainer video](docs/explainer-video.mp4) (no technical background needed), or open the built-in [test console](#test-console-web-ui) once the server is running.
+
 ## Features
 
 - `POST /api/files/` uploads and processes a `.zip` (Shapefile) or `.kml` synchronously.
