@@ -14,9 +14,9 @@ Once the server is running, open the built-in [test console](#test-console-web-u
 
 ## Architecture at a glance
 
-![High-level design: client, FastAPI routes, upload pipeline, database and the measurement engine](docs/high-level-design.png)
+![System design: a client uploads a file to FastAPI, which validates it, unzips it safely, parses it with GDAL, measures every feature in a metric projection and stores the results in a database](docs/system-design.png)
 
-*High-level design. The SVG version is [`docs/high-level-design.svg`](docs/high-level-design.svg).*
+*System design. Open the editable [`docs/system-design.excalidraw`](docs/system-design.excalidraw) file at [excalidraw.com](https://excalidraw.com) to change it; an [SVG version](docs/system-design.svg) is also included.*
 
 ## Features
 
