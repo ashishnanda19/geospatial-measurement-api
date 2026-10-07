@@ -260,6 +260,10 @@ curl "http://localhost:8000/api/files/8b24c7ebabd046ad9e744931684af72c/features/
 
 ## Architecture
 
+![High-level design: client, FastAPI routes, upload pipeline, database and the measurement engine](docs/high-level-design.png)
+
+*High-level design. The SVG version is [`docs/high-level-design.svg`](docs/high-level-design.svg).*
+
 ### Application structure
 
 ```
