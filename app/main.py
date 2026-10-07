@@ -6,8 +6,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
-from app.api import files
+from app.api import files, ui
 from app.config import Settings
 from app.database import make_engine, make_session_factory
 from app.errors import AppError
@@ -37,6 +38,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.session_factory = make_session_factory(engine)
 
     app.include_router(files.router)
+    app.include_router(ui.router)
+    app.mount("/static", StaticFiles(directory=ui.STATIC_DIR), name="static")
 
     @app.get("/health", tags=["meta"], summary="Liveness check")
     def health() -> dict[str, str]:

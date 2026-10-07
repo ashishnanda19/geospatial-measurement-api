@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Geospatial Measurement API · Test console</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-inner">
+      <div>
+        <h1>Geospatial File Measurement API</h1>
+        <p class="sub">Test console: upload a zipped Shapefile or a KML, then check that the API returns the right file information and per-feature measurements.</p>
+      </div>
+      <nav class="top-links">
+        <span id="health" class="pill pill-wait" title="GET /health">checking API…</span>
+        <a href="/docs" target="_blank" rel="noopener">API docs</a>
+        <a href="https://github.com/ashishnanda19/geospatial-measurement-api" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card" id="upload">
+      <h2><span class="step">1</span> Upload a file</h2>
+      <label id="drop" class="drop" for="file">
+        <input id="file" type="file" accept=".zip,.kml" hidden>
+        <strong id="drop-title">Drop a .zip (Shapefile) or a .kml here</strong>
+        <span id="drop-sub">or click to choose a file</span>
+      </label>
+      <div class="actions">
+        <button id="go" class="btn primary" disabled>Upload and measure</button>
+        <button id="sample-kml" class="btn">Try sample KML</button>
+        <button id="sample-zip" class="btn">Try sample Shapefile (.zip)</button>
+        <button id="selftest" class="btn ghost">Run API self-test</button>
+      </div>
+      <p id="status" class="status" role="status"></p>
+      <p class="hint">A Shapefile must be zipped together with its <code>.shp</code>, <code>.shx</code>, <code>.dbf</code> and <code>.prj</code> files.</p>
+    </section>
+
+    <section class="card" id="info" hidden>
+      <h2><span class="step">2</span> File information <small id="info-http"></small></h2>
+      <p class="muted"><code>POST /api/files/</code> response, compared with the shape expected by the assignment.</p>
+      <div class="grid2">
+        <div>
+          <h3>Actual response</h3>
+          <pre id="info-json" class="json"></pre>
+        </div>
+        <div>
+          <h3>Compared with the expected example</h3>
+          <table class="tbl compact" id="info-checks">
+            <thead><tr><th>Field</th><th>Example</th><th>Actual</th><th>Check</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="summary" hidden>
+      <h2><span class="step">3</span> Summary</h2>
+      <div class="tiles" id="tiles"></div>
+    </section>
+
+    <section class="card" id="checks" hidden>
+      <h2><span class="step">4</span> Are the measurements right?</h2>
+      <p class="muted">Automatic checks on the response, including an independent calculation done in your browser (geodesic formulas on the sphere, no projection) to confirm the API's projected numbers.</p>
+      <ul class="checks" id="check-list"></ul>
+    </section>
+
+    <section class="card" id="mapcard" hidden>
+      <h2><span class="step">5</span> Shapes <small id="map-note"></small></h2>
+      <div class="map-wrap"><svg id="map" role="img" aria-label="Preview of the uploaded shapes"></svg></div>
+      <div class="legend">
+        <span><i class="sw poly"></i>Polygon (area)</span>
+        <span><i class="sw line"></i>Line (length)</span>
+        <span><i class="sw point"></i>Point</span>
+        <span><i class="sw other"></i>Unsupported / error</span>
+      </div>
+    </section>
+
+    <section class="card" id="tablecard" hidden>
+      <h2><span class="step">6</span> Features and measurements</h2>
+      <div class="filters">
+        <label>Type <select id="f-type"></select></label>
+        <label>Status <select id="f-status"></select></label>
+        <label>Search <input id="f-search" type="search" placeholder="name or layer"></label>
+        <button id="csv" class="btn small">Download CSV</button>
+        <span id="count" class="muted"></span>
+      </div>
+      <div class="scroll">
+        <table class="tbl" id="tbl">
+          <thead>
+            <tr>
+              <th>Layer</th><th>#</th><th>Name</th><th>Type</th><th>Status</th>
+              <th class="num">Measurement</th><th>Measured in</th><th>Browser check</th><th>Notes</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="selftest-card" hidden>
+      <h2><span class="step">★</span> API self-test <small id="selftest-sum"></small></h2>
+      <p class="muted">Uploads the two bundled samples and exercises every endpoint, including the error cases. Expected values come from a reference run of the same files.</p>
+      <table class="tbl" id="selftest-tbl">
+        <thead><tr><th></th><th>Test</th><th>Observed</th><th class="num">ms</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="wrap foot">Everything on this page runs against the API at <code id="origin"></code>.</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

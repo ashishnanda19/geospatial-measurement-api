@@ -14,7 +14,8 @@ degrees: each geometry is projected into a metric CRS first.
 - Defensive input handling: zip-slip, zip bombs, size and feature limits, missing `.prj`, corrupt files.
 - Results are stored in a database (SQLite by default; the URL is configurable) and totals are computed with SQL aggregates.
 - Paginated measurements and features endpoints, OpenAPI docs at `/docs`, `/health` endpoint.
-- Accuracy is tested against `pyproj.Geod` ellipsoidal calculations (116 tests).
+- A built-in **test console** at `/` to upload a file, check the response against the assignment's example, and validate the measurements (see below).
+- Accuracy is tested against `pyproj.Geod` ellipsoidal calculations (126 tests).
 
 ## Setup
 
@@ -53,6 +54,19 @@ All settings are environment variables with the `GEO_` prefix (a `.env` file is 
 | `GEO_MAX_ZIP_MEMBERS` | `200` | Zip bomb guard: number of archive entries |
 | `GEO_MAX_FEATURES` | `100000` | Features allowed per file |
 | `GEO_INSERT_CHUNK_SIZE` | `1000` | Rows per bulk insert |
+
+## Test console (web UI)
+
+Start the server and open **http://localhost:8000/**. It is plain HTML, CSS and JavaScript served by the API itself, so there is nothing extra to install or build.
+
+- **Upload** a `.zip` (Shapefile) or `.kml` by dropping it on the page, or press *Try sample KML* / *Try sample Shapefile* to use the bundled samples.
+- **File information** shows the raw `POST /api/files/` response next to the example from the assignment (`id`, `filename`, `feature_count`, `crs`, `status`), field by field.
+- **Summary and per-feature table** list every feature's type, status, area or length, the projected CRS it was measured in, notes and warnings. The table can be filtered, searched and exported to CSV.
+- **Validation checks** confirm that counts agree, every polygon has an area and every line a length, measurements used a metric CRS (never degrees), totals equal the sum of the features, and, for longitude/latitude files, that an independent geodesic calculation done in your browser agrees with the API within 1%.
+- **Shapes** draws the uploaded geometries; clicking a table row highlights its shape.
+- **Run API self-test** uploads both samples and exercises every endpoint, including the error cases (404, 415, 400, 409, 422), reporting PASS or FAIL for each.
+
+Two query parameters are handy for demos: `/?sample=kml`, `/?sample=zip` and `/?selftest=1` run on page load.
 
 ## API
 
@@ -275,6 +289,8 @@ app/
   schemas.py         Pydantic response models
   errors.py          domain exceptions, each with its HTTP status
   api/files.py       thin route handlers
+  api/ui.py          serves the test console and the two sample files
+  static/            test console (index.html, app.css, app.js)
   services/
     archive.py       safe zip extraction
     crs.py           CRS labels and projected-CRS selection
