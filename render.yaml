@@ -1,0 +1,18 @@
+# One-click deploy on Render (https://render.com): New > Blueprint > pick this repo.
+# The free plan sleeps after ~15 minutes without traffic (the first request then takes
+# about a minute to wake it) and its disk is temporary, so stored uploads reset on restart.
+services:
+  - type: web
+    name: geospatial-measurement-api
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      # Tighter limits than the defaults, because anyone on the internet can upload.
+      - key: GEO_MAX_UPLOAD_BYTES
+        value: "10485760"        # 10 MB per upload
+      - key: GEO_MAX_UNCOMPRESSED_BYTES
+        value: "104857600"       # 100 MB after unzipping
+      - key: GEO_MAX_FEATURES
+        value: "20000"

@@ -56,6 +56,22 @@ docker run --rm -p 8000:8000 -v geo-data:/data geo-api
 
 The image stores its SQLite database in the `/data` volume.
 
+### Deploy it publicly
+
+The repository is ready for one-click hosting on [Render](https://render.com) (the free plan needs no credit card):
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ashishnanda19/geospatial-measurement-api)
+
+1. Click the button and sign in with GitHub. Render reads [`render.yaml`](render.yaml) and builds the [`Dockerfile`](Dockerfile).
+2. When the build finishes, Render shows a public `https://<name>.onrender.com` address. Open it and the test console is live for anyone.
+
+Notes for a public deployment:
+
+- The container listens on the `PORT` the host assigns (default 8000), and `render.yaml` sets stricter limits (10 MB upload, 100 MB unzipped, 20,000 features).
+- On the free plan the service sleeps after about 15 minutes without traffic, so the first request after a pause is slow, and its disk is temporary: stored results reset when it restarts.
+- There is no authentication or rate limiting, so treat it as a demo and not a place for confidential data. Both are listed under *Future scope*.
+- Any other Docker host (Railway, Fly.io, Google Cloud Run, a VPS) works the same way with this Dockerfile.
+
 ### Configuration
 
 All settings are environment variables with the `GEO_` prefix (a `.env` file is also read).
@@ -403,8 +419,8 @@ worst-case area error **0.001%**, worst-case length error **0.08%**.
 - The whole file (up to `GEO_MAX_FEATURES`) is parsed in memory; there is no streaming for huge files.
 - KMZ, GeoJSON and GeoPackage uploads are not supported. Geometry is stored as JSON, with no spatial index.
 - Tables are created with `create_all`; there are no migrations.
-- Tested on Python 3.12 with the versions listed in *Learnings*. The Dockerfile was written but not built in the
-  authoring environment.
+- Tested on Python 3.12 with the versions listed in *Learnings*. The Docker image was built and run on Linux, and the
+  full test suite passes inside a `python:3.12-slim` container; it has not been run against Postgres.
 
 ## Learnings
 
