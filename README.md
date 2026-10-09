@@ -8,7 +8,7 @@ degrees: each geometry is projected into a metric CRS first.
 
 <p align="center">
   <img src="docs/explainer.gif" alt="One-minute animated explainer of how the service works" width="640"><br>
- <sub>One-minute explainer for non-technical readers: <a href="https://youtu.be/AqxbAG-Zt5Y">Watch the video</a></sub>
+ <sub>One-minute explainer for non-technical readers: <a href="https://youtu.be/xS6odWuBMZM">Watch the video</a></sub>
 </p>
 
 ## Setup
